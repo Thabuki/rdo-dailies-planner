@@ -202,32 +202,64 @@ function renderChallengeRow(ch) {
     ch.desiredGoal
   );
 
+  const textDiv = el("div", { class: "text" }, [
+    goalText
+      ? el("span", {
+          class: "goal",
+          text: goalText + " ",
+        })
+      : document.createTextNode(""),
+    document.createTextNode(
+      ch.text
+    ),
+  ]);
+
   const row = el(
     "div",
     {
       class: "challenge",
-      title:
-        "Right-click to mark as 'will not do' (toggle)",
     },
     [
       cb,
-      el("div", { class: "text" }, [
-        goalText
-          ? el("span", {
-              class: "goal",
-              text: goalText + " ",
-            })
-          : document.createTextNode(""),
-        document.createTextNode(
-          ch.text
-        ),
-      ]),
+      textDiv,
     ]
   );
 
   if (isSkipped)
     row.classList.add("skipped");
 
+  // Click on text to toggle skip/strike-through
+  textDiv.addEventListener(
+    "click",
+    (e) => {
+      e.preventDefault();
+      const currentlySkipped =
+        !!state.skipped[ch.id];
+      if (currentlySkipped) {
+        delete state.skipped[ch.id];
+        row.classList.remove("skipped");
+      } else {
+        state.skipped[ch.id] = true;
+        row.classList.add("skipped");
+        if (
+          isRole &&
+          state.completed[ch.id]
+        ) {
+          delete state.completed[ch.id];
+          saveCompleted();
+          cb.checked = false;
+        }
+        if (isRole) {
+          cb.disabled = true;
+        }
+      }
+      saveSkipped();
+      updateSummary();
+      if (isRole) renderRoles();
+    }
+  );
+
+  // Right-click still works as before for backwards compatibility
   row.addEventListener(
     "contextmenu",
     (e) => {
