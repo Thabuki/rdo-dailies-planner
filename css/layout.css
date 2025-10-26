@@ -45,8 +45,11 @@
   .section--roles {
     order: 2;
   }
-  .section--today {
+  .section--options {
     order: 3;
+  }
+  .section--today {
+    order: 4;
   }
   .top-stats {
     width: 100%;
