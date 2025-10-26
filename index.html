@@ -40,8 +40,17 @@
                 class="section-header"
               >
                 <span
-                  >General Dailies</span
+                  class="section-title"
                 >
+                  <img
+                    src="img/dailies.png"
+                    alt="General Dailies"
+                    class="section-icon"
+                    width="20"
+                    height="20"
+                  />
+                  General Dailies
+                </span>
                 <div
                   class="header-stats"
                 >
@@ -75,7 +84,7 @@
                 <span>Options</span>
               </summary>
               <div class="role-options">
-                <h3>Role difficulty</h3>
+                <h3>Role Rank</h3>
                 <div
                   id="role-controls"
                   class="role-controls"
@@ -123,6 +132,27 @@
                     >
                   </label>
                 </div>
+
+                <!-- Debug controls -->
+                <div
+                  class="section-info"
+                  style="
+                    margin-top: 8px;
+                  "
+                >
+                  Debug tools
+                  (temporary):
+                </div>
+                <button
+                  id="reset-day"
+                  class="btn"
+                  style="
+                    margin-top: 6px;
+                  "
+                >
+                  Reset completions
+                  (debug)
+                </button>
               </div>
             </details>
           </section>
@@ -135,7 +165,18 @@
             <summary
               class="section-header"
             >
-              <span>Role Dailies</span>
+              <span
+                class="section-title"
+              >
+                <img
+                  src="img/perfect.png"
+                  alt="Role Dailies"
+                  class="section-icon"
+                  width="20"
+                  height="20"
+                />
+                Role Dailies
+              </span>
               <div class="header-stats">
                 <span
                   id="role-count"

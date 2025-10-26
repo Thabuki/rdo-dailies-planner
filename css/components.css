@@ -23,27 +23,37 @@
 
 /* Challenge rows */
 .challenge {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
   gap: 8px;
   align-items: center;
   background: #120c0c;
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 6px 8px;
+  padding: 10px 8px;
+  height: 80px;
+  box-sizing: border-box;
 }
 .challenge .text {
   cursor: pointer;
   user-select: none;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  column-gap: 6px;
+  align-items: center;
+  padding: 4px 0;
+  flex: 1;
 }
 .challenge .goal {
   color: var(--muted);
   font-size: 11px;
   display: inline-block;
-  margin-right: 6px;
   font-weight: 600;
-  min-width: 52px;
+  width: 52px;
   text-align: center;
+}
+.challenge .desc {
+  line-height: 1.4;
+  min-height: 1.4em;
 }
 .challenge input[type="checkbox"] {
   width: 20px;
@@ -81,6 +91,9 @@
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
 }
 .role-card h3 {
   margin: 2px 0 6px 0;
@@ -94,18 +107,25 @@
 /* Role controls */
 .role-controls {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
   margin-bottom: 10px;
 }
 .role-controls .role-select {
   display: flex;
-  gap: 6px;
+  gap: 10px;
   align-items: center;
   background: #120c0c;
-  padding: 6px 8px;
+  padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid var(--border);
+  width: 100%;
+  box-sizing: border-box;
+}
+/* Ensure select stretches to the right edge and doesn't wrap */
+.role-controls .role-select select {
+  margin-left: auto;
+  min-width: 140px;
 }
 select {
   background: #120c0c;
@@ -183,6 +203,17 @@ details[open] summary {
   margin-bottom: 10px;
 }
 
+/* Role icons and summaries */
+.role-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+.role-select .role-icon {
+  width: 16px;
+  height: 16px;
+}
+
 .section details {
   padding: 0;
 }
@@ -192,6 +223,16 @@ details[open] summary {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 .header-stats {
   display: flex;
@@ -207,6 +248,9 @@ details[open] summary {
 .role-card details summary {
   font-size: 15px;
   margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .role-card details[open] summary {
   margin-bottom: 8px;

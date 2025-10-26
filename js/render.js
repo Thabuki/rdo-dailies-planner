@@ -68,6 +68,26 @@ function roleDisplayName(role) {
   return map[role] || role;
 }
 
+// Map roles to icon image paths
+const ROLE_ICONS = {
+  bounty_hunter: "img/role_bh.png",
+  trader: "img/role_trader.png",
+  collector: "img/role_collector.png",
+  moonshiner: "img/role_moonshiner.png",
+  naturalist: "img/role_naturalist.png",
+};
+function roleIconSrc(role) {
+  return ROLE_ICONS[role] || "";
+}
+
+// Human-readable labels for difficulty selections
+const DIFF_LABELS = {
+  none: "Rank 0",
+  easy: "Rank 1-4",
+  med: "Rank 5-14",
+  hard: "Rank 15+",
+};
+
 function formatGoal(displayType, goal) {
   if (goal == null) return "";
   switch (displayType) {
@@ -194,7 +214,12 @@ function renderChallengeRow(ch) {
       delete state.completed[ch.id];
     saveCompleted();
     updateSummary();
-    if (isRole) renderRoles();
+    if (isRole) {
+      renderRoles();
+      applyAutoCollapse(ch.id);
+    } else {
+      applyAutoCollapse();
+    }
   });
 
   const goalText = formatGoal(
@@ -206,13 +231,16 @@ function renderChallengeRow(ch) {
     "div",
     { class: "text" },
     [
-      goalText
-        ? el("span", {
-            class: "goal",
-            text: goalText + " ",
-          })
-        : document.createTextNode(""),
-      document.createTextNode(ch.text),
+      el("span", {
+        class: "goal",
+        text: goalText
+          ? goalText + " "
+          : "",
+      }),
+      el("span", {
+        class: "desc",
+        text: ch.text,
+      }),
     ]
   );
 
@@ -254,7 +282,12 @@ function renderChallengeRow(ch) {
       }
       saveSkipped();
       updateSummary();
-      if (isRole) renderRoles();
+      if (isRole) {
+        renderRoles();
+        applyAutoCollapse(ch.id);
+      } else {
+        applyAutoCollapse();
+      }
     }
   );
 
@@ -285,7 +318,12 @@ function renderChallengeRow(ch) {
       }
       saveSkipped();
       updateSummary();
-      if (isRole) renderRoles();
+      if (isRole) {
+        renderRoles();
+        applyAutoCollapse(ch.id);
+      } else {
+        applyAutoCollapse();
+      }
     }
   );
 
@@ -316,11 +354,16 @@ export function renderRoleControls() {
   ROLES.forEach((role) => {
     const select = el(
       "select",
-      { id: `sel-${role}` },
+      {
+        id: `sel-${role}`,
+        title: `Select rank tier for ${roleDisplayName(
+          role
+        )}`,
+      },
       DIFFICULTIES.map((d) => {
         const opt = el("option", {
           value: d,
-          text: d,
+          text: DIFF_LABELS[d] || d,
         });
         if (
           state.roleDifficulty[role] ===
@@ -348,6 +391,15 @@ export function renderRoleControls() {
       "div",
       { class: "role-select" },
       [
+        el("img", {
+          class: "role-icon",
+          src: roleIconSrc(role),
+          alt: `${roleDisplayName(
+            role
+          )} icon`,
+          width: 16,
+          height: 16,
+        }),
         el("span", {
           text: roleDisplayName(role),
         }),
@@ -361,6 +413,26 @@ export function renderRoleControls() {
 export function renderRoles() {
   const grid =
     document.getElementById("roles");
+
+  // Preserve the open/closed state of each role card before re-rendering
+  const roleStates = {};
+  grid
+    .querySelectorAll(
+      ".role-card details"
+    )
+    .forEach((details) => {
+      const summaryText =
+        details.querySelector(
+          "summary span"
+        )?.textContent || "";
+      // Extract role name from text like "Naturalist (hard)"
+      const roleName = summaryText
+        .split("(")[0]
+        .trim();
+      roleStates[roleName] =
+        details.hasAttribute("open");
+    });
+
   grid.innerHTML = "";
   ROLES.forEach((role) => {
     const diff =
@@ -370,18 +442,44 @@ export function renderRoles() {
     const list = sortByText(
       state.data.roles[role][diff] || []
     );
+
+    // Determine if this role card should be open
+    // Default to true for first render, otherwise use preserved state
+    const roleName =
+      roleDisplayName(role);
+    const shouldBeOpen =
+      roleStates[roleName] !== undefined
+        ? roleStates[roleName]
+        : true;
+
+    const detailsAttrs = shouldBeOpen
+      ? { open: true }
+      : {};
+
     const card = el(
       "div",
       { class: "role-card" },
       [
-        el("details", { open: true }, [
-          el("summary", {}, [
-            el("span", {
-              text: `${roleDisplayName(
-                role
-              )} (${diff})`,
-            }),
-          ]),
+        el("details", detailsAttrs, [
+          el(
+            "summary",
+            { class: "role-summary" },
+            [
+              el("img", {
+                class: "role-icon",
+                src: roleIconSrc(role),
+                alt: `${roleName} icon`,
+                width: 18,
+                height: 18,
+              }),
+              el("span", {
+                text: `${roleName} (${
+                  DIFF_LABELS[diff] ||
+                  diff
+                })`,
+              }),
+            ]
+          ),
           list.length
             ? el(
                 "div",
@@ -477,6 +575,10 @@ export function updateSummary() {
   const rDone = rList.filter(
     (ch) => state.completed[ch.id]
   ).length;
+  const rAvailable = Math.min(
+    rList.length,
+    9
+  );
   const roleCountEl =
     document.getElementById(
       "role-count"
@@ -484,10 +586,10 @@ export function updateSummary() {
   if (roleCountEl)
     roleCountEl.textContent = `${Math.min(
       rDone,
-      9
-    )}/9`;
+      rAvailable
+    )}/${rAvailable}`;
 
-  const need = 9;
+  const need = rAvailable;
   const roleBadge =
     document.getElementById(
       "role-badge"
@@ -510,7 +612,9 @@ export function updateSummary() {
   }
 }
 
-export function applyAutoCollapse() {
+export function applyAutoCollapse(
+  interactedChallengeId = null
+) {
   if (!state.autoCollapse) return;
 
   const generalSection =
@@ -539,18 +643,122 @@ export function applyAutoCollapse() {
     }
   }
 
-  const rolesSection =
-    document.querySelector(
-      ".section--roles details"
+  // Collapse individual role cards when all their tasks are done
+  // But only collapse the card that was just interacted with, or cards that are already closed
+  let allRoleCardsCompleted = true;
+  const roleCards =
+    document.querySelectorAll(
+      ".role-card details"
     );
-  if (rolesSection) {
-    let rList = [];
+
+  // Find which role the interacted challenge belongs to
+  let interactedRole = null;
+  if (interactedChallengeId) {
     ROLES.forEach((role) => {
       const diff =
         state.roleDifficulty[role];
       if (diff === "none") return;
       const items =
         state.data.roles[role][diff] ||
+        [];
+      if (
+        items.some(
+          (ch) =>
+            ch.id ===
+            interactedChallengeId
+        )
+      ) {
+        interactedRole = role;
+      }
+    });
+  }
+
+  roleCards.forEach((roleDetails) => {
+    const roleCard =
+      roleDetails.closest(".role-card");
+    const challenges = Array.from(
+      roleCard.querySelectorAll(
+        ".challenge"
+      )
+    );
+
+    if (challenges.length === 0) {
+      // Empty role card doesn't count as incomplete
+      return;
+    }
+
+    // Check if all non-skipped challenges in this role are completed
+    const allCompleted =
+      challenges.every(
+        (challengeEl) => {
+          const checkbox =
+            challengeEl.querySelector(
+              'input[type="checkbox"]'
+            );
+          const isSkipped =
+            challengeEl.classList.contains(
+              "skipped"
+            );
+          return (
+            isSkipped ||
+            (checkbox &&
+              checkbox.checked)
+          );
+        }
+      );
+
+    if (allCompleted) {
+      // Get the role name from the summary text
+      const summaryText =
+        roleDetails.querySelector(
+          "summary span"
+        )?.textContent || "";
+      const isInteractedCard =
+        interactedRole &&
+        summaryText
+          .toLowerCase()
+          .includes(
+            interactedRole.toLowerCase()
+          );
+
+      // Only collapse if:
+      // 1. This is the card being interacted with, OR
+      // 2. The card was already closed (not manually opened by user)
+      const isOpen =
+        roleDetails.hasAttribute(
+          "open"
+        );
+
+      if (isInteractedCard || !isOpen) {
+        roleDetails.removeAttribute(
+          "open"
+        );
+      }
+    } else {
+      allRoleCardsCompleted = false;
+    }
+  });
+
+  // Collapse the main Role Dailies section if all role cards are completed
+  const rolesSection =
+    document.querySelector(
+      ".section--roles details"
+    );
+  if (
+    rolesSection &&
+    roleCards.length > 0
+  ) {
+    // Check if 9 role dailies are completed
+    let rList = [];
+    ROLES.forEach((role) => {
+      const diff =
+        state.roleDifficulty[role];
+      if (diff === "none") return;
+      const items =
+        (state.data.roles[role] &&
+          state.data.roles[role][
+            diff
+          ]) ||
         [];
       rList = rList.concat(
         items.filter(
@@ -561,9 +769,15 @@ export function applyAutoCollapse() {
     const rDone = rList.filter(
       (ch) => state.completed[ch.id]
     ).length;
+    const rAvailable = Math.min(
+      rList.length,
+      9
+    );
+
+    // Collapse if all cards completed OR all available (capped at 9) are done
     if (
-      rDone >= 9 &&
-      rList.length > 0
+      allRoleCardsCompleted ||
+      rDone >= rAvailable
     ) {
       rolesSection.removeAttribute(
         "open"
