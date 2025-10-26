@@ -1,0 +1,22 @@
+:root {
+  --bg: #0d0808;
+  --panel: #1a1010;
+  --text: #ffffff;
+  --muted: #b89968;
+  --accent: #d4a574;
+  --accent-2: #e8c170;
+  --danger: #8b1a1a;
+  --border: #2d1a1a;
+}
+
+/* Lighter theme variant */
+body.lighter-theme {
+  --bg: #2a2220;
+  --panel: #3d3230;
+  --text: #ffffff;
+  --muted: #c9a978;
+  --accent: #e8b888;
+  --accent-2: #f5d896;
+  --danger: #c94a3a;
+  --border: #55443d;
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>RDO Daily Planner</title>
+    <link
+      rel="stylesheet"
+      href="css/styles.css"
+    />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-content">
+        <h1>RDO Daily Planner</h1>
+        <div class="date-row">
+          <strong id="daily-date"
+            >--</strong
+          >
+          <span
+            class="hint"
+            id="reset-timer"
+            >--</span
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="columns">
+        <div class="column-left">
+          <section
+            class="section section--general"
+          >
+            <details open>
+              <summary
+                class="section-header"
+              >
+                <span
+                  >General Dailies</span
+                >
+                <div
+                  class="header-stats"
+                >
+                  <span
+                    id="general-count"
+                    class="value"
+                    >0/0</span
+                  >
+                  <span
+                    id="general-done"
+                    class="pill"
+                    >Not done</span
+                  >
+                </div>
+              </summary>
+              <div
+                id="general-list"
+                class="list"
+              ></div>
+            </details>
+          </section>
+
+          <!-- Options section -->
+          <section
+            class="section section--options"
+          >
+            <details>
+              <summary
+                class="section-header"
+              >
+                <span>Options</span>
+              </summary>
+              <div class="role-options">
+                <h3>Role difficulty</h3>
+                <div
+                  id="role-controls"
+                  class="role-controls"
+                ></div>
+
+                <h3>Display</h3>
+                <div
+                  class="options-toggles"
+                >
+                  <label
+                    class="toggle-option"
+                  >
+                    <input
+                      type="checkbox"
+                      id="auto-collapse-toggle"
+                    />
+                    <span
+                      >Auto-collapse
+                      completed
+                      sections</span
+                    >
+                  </label>
+                  <label
+                    class="toggle-option"
+                  >
+                    <input
+                      type="checkbox"
+                      id="light-mode-toggle"
+                    />
+                    <span
+                      >Lighter
+                      theme</span
+                    >
+                  </label>
+                  <label
+                    class="toggle-option"
+                  >
+                    <input
+                      type="checkbox"
+                      id="compact-mode-toggle"
+                    />
+                    <span
+                      >Compact
+                      mode</span
+                    >
+                  </label>
+                </div>
+              </div>
+            </details>
+          </section>
+        </div>
+
+        <section
+          class="section section--roles"
+        >
+          <details open>
+            <summary
+              class="section-header"
+            >
+              <span>Role Dailies</span>
+              <div class="header-stats">
+                <span
+                  id="role-count"
+                  class="value"
+                  >0/9</span
+                >
+                <span
+                  id="role-badge"
+                  class="pill"
+                  >Not done</span
+                >
+              </div>
+            </summary>
+            <div
+              id="roles"
+              class="roles-grid"
+            ></div>
+          </details>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p>
+          © 2025 RDO Daily Tracker |
+          Unofficial fan tool
+        </p>
+        <p>
+          Not affiliated with Rockstar
+          Games. All Red Dead trademarks
+          belong to Rockstar Games.
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="js/index.js"></script>
+  </body>
+</html>

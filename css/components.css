@@ -1,0 +1,209 @@
+/* Buttons */
+.btn {
+  background: #2d1a1a;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-danger {
+  background: #5a1a1a;
+  border-color: #7a2a2a;
+}
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+/* Lists */
+.list {
+  display: grid;
+  gap: 6px;
+}
+
+/* Challenge rows */
+.challenge {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: center;
+  background: #120c0c;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+.challenge .goal {
+  color: var(--muted);
+  font-size: 11px;
+  display: inline-block;
+  margin-right: 6px;
+  font-weight: 600;
+  min-width: 52px;
+  text-align: center;
+}
+.challenge input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #c94a3a;
+  cursor: pointer;
+}
+/* Disabled role checkbox clarity */
+.challenge
+  input[type="checkbox"][disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.challenge.skipped {
+  opacity: 0.4;
+  background: #0f0a0a;
+  filter: grayscale(0.8);
+}
+.challenge.skipped .text {
+  text-decoration: line-through;
+  color: #666666;
+}
+
+/* Roles */
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(260px, 1fr)
+  );
+  gap: 12px;
+}
+.role-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+}
+.role-card h3 {
+  margin: 2px 0 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 15px;
+}
+
+/* Role controls */
+.role-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.role-controls .role-select {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: #120c0c;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+select {
+  background: #120c0c;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+/* Options */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+.options .actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+/* Options toggles */
+.options-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.toggle-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #c94a3a;
+  cursor: pointer;
+}
+.toggle-option span {
+  font-size: 14px;
+}
+
+/* Collapsible sections */
+details {
+  margin: 0;
+}
+details summary {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  padding: 4px 2px;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+details
+  summary::-webkit-details-marker {
+  display: none;
+}
+details summary::before {
+  content: "▼";
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform 0.2s;
+  font-size: 12px;
+  color: var(--muted);
+}
+details:not([open]) summary::before {
+  transform: rotate(-90deg);
+}
+details[open] summary {
+  margin-bottom: 10px;
+}
+
+.section details {
+  padding: 0;
+}
+.section-header {
+  margin: 2px 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.header-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.header-stats .value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.role-card details summary {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.role-card details[open] summary {
+  margin-bottom: 8px;
+}

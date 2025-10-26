@@ -1,0 +1,25 @@
+/* Compact mode */
+body.compact-mode .section {
+  padding: 8px;
+  margin: 12px 0;
+}
+body.compact-mode .challenge {
+  padding: 4px 6px;
+  gap: 6px;
+}
+body.compact-mode .section-header {
+  font-size: 14px;
+  margin: 2px 4px 6px;
+}
+body.compact-mode .pill {
+  font-size: 11px;
+  padding: 1px 6px;
+  min-width: 70px;
+}
+body.compact-mode .header-stats .value {
+  font-size: 13px;
+}
+body.compact-mode details summary {
+  font-size: 14px;
+  padding: 3px 2px;
+}
