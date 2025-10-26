@@ -202,27 +202,26 @@ function renderChallengeRow(ch) {
     ch.desiredGoal
   );
 
-  const textDiv = el("div", { class: "text" }, [
-    goalText
-      ? el("span", {
-          class: "goal",
-          text: goalText + " ",
-        })
-      : document.createTextNode(""),
-    document.createTextNode(
-      ch.text
-    ),
-  ]);
+  const textDiv = el(
+    "div",
+    { class: "text" },
+    [
+      goalText
+        ? el("span", {
+            class: "goal",
+            text: goalText + " ",
+          })
+        : document.createTextNode(""),
+      document.createTextNode(ch.text),
+    ]
+  );
 
   const row = el(
     "div",
     {
       class: "challenge",
     },
-    [
-      cb,
-      textDiv,
-    ]
+    [cb, textDiv]
   );
 
   if (isSkipped)
