@@ -6,7 +6,7 @@ body.compact-mode .section {
 body.compact-mode .challenge {
   padding: 4px 6px;
   gap: 6px;
-  height: 104px; /* Compact height sized for up to 4 lines */
+  height: 64px; /* Compact height sized for up to 2 lines */
 }
 /* Tighter inner padding for text in compact mode */
 body.compact-mode .challenge .text {

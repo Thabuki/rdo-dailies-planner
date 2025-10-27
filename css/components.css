@@ -30,7 +30,7 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 8px 8px;
-  height: 108px; /* Fits up to 4 lines of description text */
+  height: 72px; /* Fits up to 2 lines of description text */
   box-sizing: border-box;
 }
 .challenge .text {
@@ -53,11 +53,11 @@
 }
 .challenge .desc {
   line-height: 1.4;
-  /* Clamp to 4 lines to maintain uniform cell height */
+  /* Clamp to 2 lines to maintain uniform cell height */
   display: -webkit-box;
   /* Standard property for future compatibility */
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -86,10 +86,7 @@
 /* Roles */
 .roles-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(260px, 1fr)
-  );
+  grid-template-columns: 1fr; /* Single column layout */
   gap: 12px;
 }
 .role-card {

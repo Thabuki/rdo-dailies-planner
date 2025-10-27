@@ -508,6 +508,38 @@ export function render() {
   renderRoles();
   updateSummary();
   applyAutoCollapse();
+
+  // Post-render audit: report how many challenges render on 1 vs 2 lines
+  // Useful to verify the two-line layout decision at current viewport width
+  setTimeout(() => {
+    try {
+      const descs =
+        document.querySelectorAll(
+          ".challenge .desc"
+        );
+      let oneLine = 0;
+      let twoLines = 0;
+      descs.forEach((el) => {
+        const cs = getComputedStyle(el);
+        const lh =
+          parseFloat(cs.lineHeight) ||
+          16;
+        const h =
+          el.getBoundingClientRect()
+            .height;
+        const lines = Math.round(
+          h / lh
+        );
+        if (lines <= 1) oneLine++;
+        else twoLines++;
+      });
+      if (descs.length) {
+        console.log(
+          `[Audit] Challenge description lines: 1-line=${oneLine}, 2-lines=${twoLines}, total=${descs.length}`
+        );
+      }
+    } catch (_) {}
+  }, 0);
 }
 
 export function setBadge(
