@@ -29,8 +29,8 @@
   background: #120c0c;
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 10px 8px;
-  height: 80px;
+  padding: 8px 8px;
+  height: 108px; /* Fits up to 4 lines of description text */
   box-sizing: border-box;
 }
 .challenge .text {
@@ -40,7 +40,7 @@
   grid-template-columns: 56px 1fr;
   column-gap: 6px;
   align-items: center;
-  padding: 4px 0;
+  padding: 2px 0;
   flex: 1;
 }
 .challenge .goal {
@@ -53,7 +53,13 @@
 }
 .challenge .desc {
   line-height: 1.4;
-  min-height: 1.4em;
+  /* Clamp to 4 lines to maintain uniform cell height */
+  display: -webkit-box;
+  /* Standard property for future compatibility */
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .challenge input[type="checkbox"] {
   width: 20px;
